@@ -25,3 +25,18 @@ $ python
 
 You can create a personal dictionary easily, but, NO duplicated items are accepted, they will cause trouble!
 很容易就能创建你的个人字典（准确的说，一个字符列表），但是，不要出现重复的项，这会造成问题。
+
+You only need to modify variable `nya_locales`, e. g.
+只需要修改变量`nya_locales`，例如
+
+```python
+nya_locales = {
+    'emoji': [
+        '🐱', '😸', '😾', '😺', '😻',
+        '😼', '😽', '😹', '😿', '🙀'
+    ]
+    'my_locale': [
+        '❌', '⭕'
+    ] # add a personal dictionary
+}
+```
