@@ -14,7 +14,7 @@ import math
 I have no wise method to generate this dynamically
 Pityfully, sequences are not supported.
 """
-nya_wordlist = {
+nya_locales = {
     'zh_cn': [
         '喵', '咪', '呜', '呐',
         '嗷', '噜', '呼', '啊',
@@ -45,7 +45,7 @@ def nyasbox(sz):
 def nyaencode(text, locale):
     "Encode text with locale"
     s = ''
-    dlen = len(nya_wordlist[locale])
+    dlen = len(nya_locales[locale])
     step = nyastep(dlen)
     sbox = nyasbox(dlen)
     for c in text:
@@ -53,7 +53,7 @@ def nyaencode(text, locale):
         for i in range(0, step):
             j = n % dlen
             n //= dlen
-            s += nya_wordlist[locale][sbox[j]]
+            s += nya_locales[locale][sbox[j]]
             # state transfer
             sbox.insert(dlen - j, sbox.pop())
     return s
@@ -62,7 +62,7 @@ def nyaencode(text, locale):
 def nyadecode(text, locale):
     "Decode text with locale"
     s = ''
-    dlen = len(nya_wordlist[locale])
+    dlen = len(nya_locales[locale])
     step = nyastep(dlen)
     sbox = nyasbox(dlen)
     cnt = 0
@@ -71,7 +71,7 @@ def nyadecode(text, locale):
         b = 1
         for i in range(0, step):
             j = sbox.index(
-                nya_wordlist[locale].index(text[cnt + i]))
+                nya_locales[locale].index(text[cnt + i]))
             n += (b * j)
             b *= dlen
             # state transfer
