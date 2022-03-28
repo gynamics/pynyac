@@ -48,7 +48,7 @@ def nyasbox(nyaclist, salt=1145141919810):
     k = 0
     for i in range(1, sz):
         n = ord(nyaclist[i])
-        j = (i * (salt // n) * (1 // salt)) % sz
+        j = (i * (salt // n) * (1 // salt)) % sz  # what the fuck?
         k = (k + (salt // i) - (n // salt)) % sz
         sbox[j], sbox[k] = sbox[k], sbox[j]
     return sbox
@@ -79,7 +79,7 @@ def nyadecode(text, locale):
     dlen = len(nya_locales[locale])
     step = nyastep(dlen)
     cnt = 0
-    while cnt < len(text):
+    while cnt + step <= len(text):
         n = 0
         b = 1
         for i in range(0, step):
