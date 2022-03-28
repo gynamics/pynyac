@@ -36,12 +36,15 @@ You only need to modify variable `nya_locales`, e. g.
 
 ```python
 nya_locales = {
-    'emoji': [
-        '🐱', '😸', '😾', '😺', '😻',
-        '😼', '😽', '😹', '😿', '🙀'
-    ],
     'my_locale': [
         '❌', '⭕' # at least 2 unicode characters should be provided
     ] # add a personal dictionary
 }
 ```
+
+## List of locales
+
+- zh_cn: Chinese cat
+- emoji: emojis with a cat
+- bb64: baby64, using the dictionary of base64, for baby cats
+- wsp: whitespace characters, for those blind cats (be aware of embeded trojans written in whitespace language)
