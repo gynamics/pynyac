@@ -26,6 +26,15 @@ $ python
 '有内鬼，终止交易！'
 ```
 
+## List of locales(by gynamics
+
+- zh_cn: Chinese cat
+- emoji: emojis with a cat
+- bb64: baby64, using the dictionary of base64, for baby cats
+- wsp: whitespace characters, for those blind cats (be aware of embeded trojans written in whitespace language)
+
+## Customization
+
 You can create a personal dictionary easily, but, NO duplicated items are accepted, they will cause trouble!
 
 很容易就能创建你的个人字典（准确的说，一个字符列表），但是，不要出现重复的项，这会造成问题。
@@ -41,10 +50,3 @@ nya_locales = {
     ] # add a personal dictionary
 }
 ```
-
-## List of locales
-
-- zh_cn: Chinese cat
-- emoji: emojis with a cat
-- bb64: baby64, using the dictionary of base64, for baby cats
-- wsp: whitespace characters, for those blind cats (be aware of embeded trojans written in whitespace language)
