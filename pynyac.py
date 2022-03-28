@@ -48,7 +48,7 @@ def nyasbox(nyaclist, salt=1145141919810):
     k = 0
     for i in range(1, sz):
         n = ord(nyaclist[i])
-        j = (i * (salt // n) * (1 // salt)) % sz  # what the fuck?
+        j = (i * ((salt // i) - n) // salt) % sz  # what the fuck?
         k = (k + (salt // i) - (n // salt)) % sz
         sbox[j], sbox[k] = sbox[k], sbox[j]
     return sbox
