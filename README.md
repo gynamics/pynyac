@@ -39,9 +39,9 @@ nya_locales = {
     'emoji': [
         '🐱', '😸', '😾', '😺', '😻',
         '😼', '😽', '😹', '😿', '🙀'
-    ]
+    ],
     'my_locale': [
-        '❌', '⭕'
+        '❌', '⭕' # at least 2 unicode characters should be provided
     ] # add a personal dictionary
 }
 ```
