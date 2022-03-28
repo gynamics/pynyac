@@ -14,7 +14,7 @@ import math
 I have no wise method to generate this dynamically
 Pityfully, sequences are not supported.
 """
-nya_wordlist = {
+nya_locales = {
     'zh_cn': [
         '喵', '咪', '呜', '呐',
         '嗷', '噜', '呼', '啊',
@@ -25,8 +25,8 @@ nya_wordlist = {
         '🐱', '😸', '😾', '😺', '😻',
         '😼', '😽', '😹', '😿', '🙀'
     ],
-    'bb64': # this is not base64!
-        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
+    'bb64':  # this is not base64!
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
     'wsp': [
         ' ', '\t', '\n'
     ]
@@ -37,27 +37,35 @@ def nyastep(base):
     return math.ceil(math.log(0xfffff, base))
 
 
-def nyasbox(sz):
+def nyasbox(nyaclist, salt=1145141919810):
     "Generate an sbox, you can customize it as you will"
+    sz = len(nyaclist)
     sbox = list(range(0, sz))
     for i in range(1, math.ceil(math.sqrt(sz))):
         for j in range(i, sz, i):
             sbox[j-i], sbox[j] = sbox[j], sbox[j-i]
+    # salting
+    k = 0
+    for i in range(1, sz):
+        n = ord(nyaclist[i])
+        j = (i * (salt // n) * (1 // salt)) % sz
+        k = (k + (salt // i) - (n // salt)) % sz
+        sbox[j], sbox[k] = sbox[k], sbox[j]
     return sbox
 
 
 def nyaencode(text, locale):
     "Encode text with locale"
     s = ''
-    dlen = len(nya_wordlist[locale])
+    sbox = nyasbox(nya_locales[locale])
+    dlen = len(nya_locales[locale])
     step = nyastep(dlen)
-    sbox = nyasbox(dlen)
     for c in text:
         n = ord(c)
         for i in range(0, step):
             j = n % dlen
             n //= dlen
-            s += nya_wordlist[locale][sbox[j]]
+            s += nya_locales[locale][sbox[j]]
             # state transfer
             sbox.insert(j, sbox.pop())
             sbox.insert(dlen - j, sbox.pop(0))
@@ -67,16 +75,16 @@ def nyaencode(text, locale):
 def nyadecode(text, locale):
     "Decode text with locale"
     s = ''
-    dlen = len(nya_wordlist[locale])
+    sbox = nyasbox(nya_locales[locale])
+    dlen = len(nya_locales[locale])
     step = nyastep(dlen)
-    sbox = nyasbox(dlen)
     cnt = 0
     while cnt < len(text):
         n = 0
         b = 1
         for i in range(0, step):
             j = sbox.index(
-                nya_wordlist[locale].index(text[cnt + i]))
+                nya_locales[locale].index(text[cnt + i]))
             n += (b * j)
             b *= dlen
             # state transfer
@@ -107,7 +115,7 @@ if __name__ == '__main__':
     tmpstr = input('Input some text:')
     mode = input('Encode or decode(e/d)')
     print('Availiable locales:')
-    for key in nya_wordlist:
+    for key in nya_locales:
         print(key)
     loc = input('Please choose a locale:')
     if mode == 'e':
