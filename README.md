@@ -50,3 +50,15 @@ nya_locales = {
     ] # add a personal dictionary
 }
 ```
+
+## using the GUI
+
+There is a GUI for convenience.
+为了方便使用，弄了一个简单的图形界面。
+
+```shell
+python pynyac-ui.py
+```
+
+exe, electron, NO WAY!
+打包是不可能打包的，想要在线版请自行`pyjs`。
