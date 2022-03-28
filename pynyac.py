@@ -14,7 +14,7 @@ import math
 I have no wise method to generate this dynamically
 Pityfully, sequences are not supported.
 """
-nya_locales = {
+nya_wordlist = {
     'zh_cn': [
         '喵', '咪', '呜', '呐',
         '嗷', '噜', '呼', '啊',
@@ -24,9 +24,13 @@ nya_locales = {
     'emoji': [
         '🐱', '😸', '😾', '😺', '😻',
         '😼', '😽', '😹', '😿', '🙀'
+    ],
+    'bb64': # this is not base64!
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
+    'wsp': [
+        ' ', '\t', '\n'
     ]
 }
-
 
 def nyastep(base):
     "Calculate how many symbols will be used to encode a unicode"
@@ -45,7 +49,7 @@ def nyasbox(sz):
 def nyaencode(text, locale):
     "Encode text with locale"
     s = ''
-    dlen = len(nya_locales[locale])
+    dlen = len(nya_wordlist[locale])
     step = nyastep(dlen)
     sbox = nyasbox(dlen)
     for c in text:
@@ -53,16 +57,17 @@ def nyaencode(text, locale):
         for i in range(0, step):
             j = n % dlen
             n //= dlen
-            s += nya_locales[locale][sbox[j]]
+            s += nya_wordlist[locale][sbox[j]]
             # state transfer
-            sbox.insert(dlen - j, sbox.pop())
+            sbox.insert(j, sbox.pop())
+            sbox.insert(dlen - j, sbox.pop(0))
     return s
 
 
 def nyadecode(text, locale):
     "Decode text with locale"
     s = ''
-    dlen = len(nya_locales[locale])
+    dlen = len(nya_wordlist[locale])
     step = nyastep(dlen)
     sbox = nyasbox(dlen)
     cnt = 0
@@ -71,11 +76,12 @@ def nyadecode(text, locale):
         b = 1
         for i in range(0, step):
             j = sbox.index(
-                nya_locales[locale].index(text[cnt + i]))
+                nya_wordlist[locale].index(text[cnt + i]))
             n += (b * j)
             b *= dlen
             # state transfer
-            sbox.insert(dlen - j, sbox.pop())
+            sbox.insert(j, sbox.pop())
+            sbox.insert(dlen - j, sbox.pop(0))
         s += chr(n)
         cnt += step
     return s
