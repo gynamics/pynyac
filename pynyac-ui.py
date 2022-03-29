@@ -24,6 +24,7 @@ def main():
     locselc = ttk.Combobox(win,
                            font=('monospace', 12),
                            values=tuple(nyac.nya_locales.keys()))
+    locselc.set(list(nyac.nya_locales.keys())[0])
     locselc.place(x=600, y=80)
     txtfld1 = tksctxt.ScrolledText(win,
                                    wrap=tk.WORD,
