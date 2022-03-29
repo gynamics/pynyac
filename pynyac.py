@@ -29,7 +29,7 @@ nya_locales = {
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
     'wsp': [
         ' ', '\t', '\n'
-    ]
+    ],
 }
 
 def nyastep(base):
@@ -48,8 +48,8 @@ def nyasbox(nyaclist, salt=1145141919810):
     k = 0
     for i in range(1, sz):
         n = ord(nyaclist[i])
-        j = (i * ((salt // i) - n) // salt) % sz  # what the fuck?
-        k = (k + (salt // i) - (n // salt)) % sz
+        j = (i * ((salt // i**2) - n) // salt + k) % sz  # what the fuck?
+        k = (i + (salt // i**2) - (n // salt) + j) % sz
         sbox[j], sbox[k] = sbox[k], sbox[j]
     return sbox
 
