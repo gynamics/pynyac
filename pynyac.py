@@ -54,10 +54,10 @@ def nyasbox(nyaclist, salt=1145141919810):
     return sbox
 
 
-def nyaencode(text, locale):
+def nyaencode(text, locale, salt=1145141919810):
     "Encode text with locale"
     s = ''
-    sbox = nyasbox(nya_locales[locale])
+    sbox = nyasbox(nya_locales[locale], salt)
     dlen = len(nya_locales[locale])
     step = nyastep(dlen)
     for c in text:
@@ -72,10 +72,10 @@ def nyaencode(text, locale):
     return s
 
 
-def nyadecode(text, locale):
+def nyadecode(text, locale, salt=1145141919810):
     "Decode text with locale"
     s = ''
-    sbox = nyasbox(nya_locales[locale])
+    sbox = nyasbox(nya_locales[locale], salt)
     dlen = len(nya_locales[locale])
     step = nyastep(dlen)
     cnt = 0
